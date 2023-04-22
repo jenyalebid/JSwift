@@ -1,3 +1,3 @@
 # JSwift
 
-A description of this package.
+Helpful Swift extensions.
