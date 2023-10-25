@@ -21,3 +21,10 @@ public extension Date {
         Calendar.current.isDateInToday(self)
     }
 }
+
+public extension Date {
+    
+    func isSame(granularity: Calendar.Component, as date: Date) -> Bool {
+        Calendar.current.isDate(self, equalTo: date, toGranularity: granularity)
+    }
+}
