@@ -20,6 +20,10 @@ public extension Date {
     var isToday: Bool {
         Calendar.current.isDateInToday(self)
     }
+    
+    var isTomorrow: Bool {
+        Calendar.current.isDateInTomorrow(self)
+    }
 }
 
 public extension Date {
