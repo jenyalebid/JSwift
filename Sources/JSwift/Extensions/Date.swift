@@ -28,6 +28,16 @@ public extension Date {
 
 public extension Date {
     
+    var weekday: Weekday {
+        let calendar = Calendar.current
+        let weekdayIndex = calendar.component(.weekday, from: self)
+        // Sunday is represented by 1, so we need to subtract 1 to match with the Weekday enum
+        return Weekday.allCases[(weekdayIndex - 1) % Weekday.allCases.count]
+    }
+}
+
+public extension Date {
+    
     func isSame(granularity: Calendar.Component, as date: Date) -> Bool {
         Calendar.current.isDate(self, equalTo: date, toGranularity: granularity)
     }
