@@ -28,6 +28,41 @@ public extension Date {
 
 public extension Date {
     
+    static var  currentYear: Int {
+        Date().year
+    }
+    
+    static var  currentMonth: Int {
+        Date().monthOfYear
+    }
+    
+    static var  currentWeekOfYear: Int {
+        Date().weekOfYear
+    }
+    
+    static var currentWeekOfMonth: Int {
+        Date().weekOfMonth
+    }
+    
+    var year: Int {
+        Calendar.current.component(.year, from: self)
+    }
+    
+    var monthOfYear: Int {
+        Calendar.current.component(.month, from: self)
+    }
+    
+    var weekOfYear: Int {
+        Calendar.current.component(.weekOfYear, from: self)
+    }
+    
+    var weekOfMonth: Int {
+        Calendar.current.component(.weekOfMonth, from: self)
+    }
+}
+
+public extension Date {
+    
     var weekday: Weekday {
         let calendar = Calendar.current
         let weekdayIndex = calendar.component(.weekday, from: self)
@@ -40,5 +75,12 @@ public extension Date {
     
     func isSame(granularity: Calendar.Component, as date: Date) -> Bool {
         Calendar.current.isDate(self, equalTo: date, toGranularity: granularity)
+    }
+    
+    func toString(_ format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.dateFormat = format
+        return formatter.string(from: self)
     }
 }
