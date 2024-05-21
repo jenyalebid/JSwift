@@ -14,7 +14,11 @@ public extension Date {
     }
     
     var nextDay: Date {
-        Calendar.current.date(byAdding: .day, value: 1, to: self)!
+        Calendar.current.date(byAdding: .day, value: 1, to: self) ?? self
+    }
+    
+    var previousDay: Date {
+        Calendar.current.date(byAdding: .day, value: -1, to: self) ?? self
     }
     
     var isToday: Bool {
@@ -23,6 +27,10 @@ public extension Date {
     
     var isTomorrow: Bool {
         Calendar.current.isDateInTomorrow(self)
+    }
+    
+    var isYesterday: Bool {
+        Calendar.current.isDateInYesterday(self)
     }
 }
 
@@ -68,6 +76,17 @@ public extension Date {
         let weekdayIndex = calendar.component(.weekday, from: self)
         // Sunday is represented by 1, so we need to subtract 1 to match with the Weekday enum
         return Weekday.allCases[(weekdayIndex - 1) % Weekday.allCases.count]
+    }
+    
+    var time: Time {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.hour, .minute, .second], from: self)
+        
+        let hour = components.hour ?? 0
+        let minute = components.minute ?? 0
+        let second = components.second ?? 0
+        
+        return Time(hour: hour, minute: minute, second: second)
     }
 }
 
