@@ -67,6 +67,14 @@ public extension Date {
     var weekOfMonth: Int {
         Calendar.current.component(.weekOfMonth, from: self)
     }
+    
+    var dayOfWeek: Int {
+        Calendar.current.component(.weekday, from: self)
+    }
+    
+    var dayOfMonth: Int {
+        Calendar.current.component(.day, from: self)
+    }
 }
 
 public extension Date {

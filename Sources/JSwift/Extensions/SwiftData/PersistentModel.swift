@@ -18,4 +18,9 @@ public extension PersistentModel {
             context.delete(model)
         }
     }
+    
+    static func getAll(in context: ModelContext) throws -> [Self] {
+        let descriptor = FetchDescriptor<Self>()
+        return try context.fetch(descriptor)
+    }
 }
