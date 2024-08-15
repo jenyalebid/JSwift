@@ -190,6 +190,10 @@ public extension Date {
         Calendar.current.date(byAdding: .day, value: value, to: self) ?? self
     }
     
+    func change(_ component: Calendar.Component, by value: Int) -> Self {
+        Calendar.current.date(byAdding: component, value: value, to: self) ?? self
+    }
+    
     func isSame(granularity: Calendar.Component, as date: Date) -> Bool {
         Calendar.current.isDate(self, equalTo: date, toGranularity: granularity)
     }
