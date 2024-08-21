@@ -9,6 +9,19 @@ import Foundation
 
 public extension Date {
     
+    init?(from dateString: String, format: String) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        if let date = dateFormatter.date(from: dateString) {
+            self = date
+        } else {
+            return nil
+        }
+    }
+}
+
+public extension Date {
+    
     var startOfDay: Date {
         Calendar.current.startOfDay(for: self)
     }
