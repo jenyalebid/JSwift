@@ -45,6 +45,19 @@ public extension Date {
     var isYesterday: Bool {
         Calendar.current.isDateInYesterday(self)
     }
+    
+    var daysInCurrentMonth: Int {
+        let calendar = Calendar.current
+        let range = calendar.range(of: .day, in: .month, for: self)
+        return range?.count ?? 0
+    }
+}
+
+public extension Date {
+    
+    func startOfWeek(startingOn weekday: Int = 1) -> Date {
+        Calendar.current.startOfWeek(for: self, startingOn: weekday) ?? self
+    }
 }
 
 public extension Date {
@@ -207,8 +220,23 @@ public extension Date {
         Calendar.current.date(byAdding: component, value: value, to: self) ?? self
     }
     
+    func difference(in component: Calendar.Component, to date: Date) -> Int {
+        let calendar = Calendar.current
+        let startOfSelf = calendar.startOfDay(for: self)
+        let startOfDate = calendar.startOfDay(for: date)
+        
+        let difference = calendar.dateComponents([component], from: startOfSelf, to: startOfDate)
+        
+        return difference.value(for: component) ?? 0
+    }
+    
     func isSame(granularity: Calendar.Component, as date: Date) -> Bool {
         Calendar.current.isDate(self, equalTo: date, toGranularity: granularity)
+    }
+    
+    func secondsElapsed(from startDate: Date?) -> Int {
+        let elapsedTime = self.timeIntervalSince(startDate ?? Date())
+        return Int(elapsedTime)
     }
     
     func toString(_ format: String) -> String {
