@@ -10,5 +10,9 @@ import SwiftData
 
 public extension ModelContext {
     
-    
+    func insert<Model: PersistentModel>(_ models: [Model]) {
+        models.forEach { model in
+            self.insert(model)
+        }
+    }
 }
