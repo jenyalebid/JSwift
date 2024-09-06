@@ -15,4 +15,9 @@ public extension ModelContext {
             self.insert(model)
         }
     }
+    
+    func model(optionalID: PersistentIdentifier?) -> (any PersistentModel)? {
+        guard let optionalID else { return nil }
+        return model(for: optionalID)
+    }
 }
