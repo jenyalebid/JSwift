@@ -51,6 +51,27 @@ public extension Date {
         let range = calendar.range(of: .day, in: .month, for: self)
         return range?.count ?? 0
     }
+    
+    func set(hour: Int?, minute: Int?, second: Int? = 0) -> Date {
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
+        
+        // Extract current date components
+        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
+        
+        // Set the hour and minute if provided
+        if let hour = hour {
+            components.hour = hour
+        }
+        if let minute = minute {
+            components.minute = minute
+        }
+        if let second {
+            components.second = second
+        }
+        
+        return calendar.date(from: components) ?? self
+    }
 }
 
 public extension Date {
