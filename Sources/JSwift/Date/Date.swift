@@ -260,7 +260,19 @@ public extension Date {
         return Int(elapsedTime)
     }
     
-    func toString(_ format: String) -> String {
+    func toString(_ format: String, recentAsText: Bool = false) -> String {
+        let calendar = Calendar.current
+        
+        if recentAsText {
+            if calendar.isDateInToday(self) {
+                return "Today"
+            } else if calendar.isDateInYesterday(self) {
+                return "Yesterday"
+            } else if calendar.isDateInTomorrow(self) {
+                return "Tomorrow"
+            }
+        }
+        
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.dateFormat = format
