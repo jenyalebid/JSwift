@@ -76,6 +76,14 @@ public extension Date {
 
 public extension Date {
     
+    var startOfMonth: Date {
+        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self)) ?? self
+    }
+    
+    var endOfMonth: Date {
+        return Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth) ?? self
+    }
+    
     func startOfWeek(startingOn weekday: Int = 1) -> Date {
         Calendar.current.startOfWeek(for: self, startingOn: weekday) ?? self
     }
