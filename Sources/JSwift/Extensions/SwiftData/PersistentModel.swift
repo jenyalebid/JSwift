@@ -10,7 +10,9 @@ import SwiftData
 
 public extension PersistentModel {
     
-    static func deleteAll(in context: ModelContext) throws {
+    /// Delete all model instances of this type by fetch and cycle delete.
+    /// - Not efficient for large data sets, use appropriate method.
+    static func cycleDeleteAll(in context: ModelContext) throws {
         let descriptor = FetchDescriptor<Self>()
         let models = try context.fetch(descriptor)
         
@@ -22,5 +24,10 @@ public extension PersistentModel {
     static func getAll(in context: ModelContext) throws -> [Self] {
         let descriptor = FetchDescriptor<Self>()
         return try context.fetch(descriptor)
+    }
+    
+    /// Iinstantiate model in provided context by its peristent identifier.
+    static func model(for identifier: PersistentIdentifier, in context: ModelContext) -> Self? {
+        context.model(for: identifier) as? Self
     }
 }
