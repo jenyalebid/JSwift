@@ -42,6 +42,7 @@ public extension Date {
         Calendar.current.isDateInTomorrow(self)
     }
     
+    
     var isYesterday: Bool {
         Calendar.current.isDateInYesterday(self)
     }
@@ -72,6 +73,16 @@ public extension Date {
         
         return calendar.date(from: components) ?? self
     }
+    
+    func isChanged(_ comparator: Comparator, by value: Int, component: Calendar.Component, from date: Date = Date()) -> Bool {
+        let difference = Calendar.current.dateComponents([component], from: date, to: self)
+        
+        guard let differenceValue = difference.value(for: component) else {
+            return false
+        }
+        
+        return comparator.compare(differenceValue, value)
+    }
 }
 
 public extension Date {
@@ -84,8 +95,20 @@ public extension Date {
         return Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth) ?? self
     }
     
-    func startOfWeek(startingOn weekday: Int = 1) -> Date {
+    func startOfWeek(startingOn weekday: Int = Calendar.current.firstWeekday) -> Date {
         Calendar.current.startOfWeek(for: self, startingOn: weekday) ?? self
+    }
+    
+    func endOfWeek(startingOn weekday: Int = Calendar.current.firstWeekday) -> Date {
+        Calendar.current.endOfWeek(for: self, startingOn: weekday) ?? self
+    }
+}
+
+public extension Date {
+    
+    var startOfYear: Date {
+        let calendar = Calendar.current
+        return calendar.date(from: calendar.dateComponents([.year], from: self)) ?? self
     }
 }
 
@@ -240,7 +263,7 @@ public extension Date {
 }
 
 public extension Date {
-    
+
     func advanceBy(_ value: Int) -> Self {
         Calendar.current.date(byAdding: .day, value: value, to: self) ?? self
     }
