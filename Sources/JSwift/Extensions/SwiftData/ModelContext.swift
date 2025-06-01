@@ -10,6 +10,12 @@ import SwiftData
 
 public extension ModelContext {
     
+    /// Insert model and perform save operation.
+    func insertSaving<Model: PersistentModel>(_ model: Model) throws {
+        self.insert(model)
+        try self.save()
+    }
+    
     func insert<Model: PersistentModel>(_ models: [Model]) {
         models.forEach { model in
             self.insert(model)

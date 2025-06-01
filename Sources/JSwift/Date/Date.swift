@@ -26,6 +26,11 @@ public extension Date {
         Calendar.current.startOfDay(for: self)
     }
     
+    /// The very last moment of the day (23:59:59)
+    var endOfDay: Date {
+        Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: self) ?? self
+    }
+    
     var nextDay: Date {
         Calendar.current.date(byAdding: .day, value: 1, to: self) ?? self
     }
