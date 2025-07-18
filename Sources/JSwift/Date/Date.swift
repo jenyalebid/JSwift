@@ -26,9 +26,14 @@ public extension Date {
         Calendar.current.startOfDay(for: self)
     }
     
-    /// The very last moment of the day (23:59:59)
+    /// The very last moment of the day, computed as the start of the next day minus one second.
     var endOfDay: Date {
-        Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: self) ?? self
+        guard let nextDayStart = Calendar.current.date(byAdding: .day, value: 1, to: self.startOfDay),
+              let lastMoment = Calendar.current.date(byAdding: .second, value: -1, to: nextDayStart)
+        else {
+            return self
+        }
+        return lastMoment
     }
     
     var nextDay: Date {
@@ -50,6 +55,18 @@ public extension Date {
     
     var isYesterday: Bool {
         Calendar.current.isDateInYesterday(self)
+    }
+    
+    var isPassedDay: Bool {
+        self.startOfDay < Date().startOfDay
+    }
+    
+    var isFutureDay: Bool {
+        self.startOfDay > Date().startOfDay
+    }
+    
+    var isTodayOrFuture: Bool {
+        self.isToday || self.isFutureDay
     }
     
     var daysInCurrentMonth: Int {
@@ -277,14 +294,19 @@ public extension Date {
         Calendar.current.date(byAdding: component, value: value, to: self) ?? self
     }
     
-    func difference(in component: Calendar.Component, to date: Date) -> Int {
+    func difference(in component: Calendar.Component, to date: Date, inclusive: Bool = true) -> Int {
         let calendar = Calendar.current
         let startOfSelf = calendar.startOfDay(for: self)
         let startOfDate = calendar.startOfDay(for: date)
         
         let difference = calendar.dateComponents([component], from: startOfSelf, to: startOfDate)
+        var value = difference.value(for: component) ?? 0
         
-        return difference.value(for: component) ?? 0
+        if inclusive {
+            value += 1
+        }
+        
+        return value
     }
     
     func isSame(granularity: Calendar.Component, as date: Date) -> Bool {
