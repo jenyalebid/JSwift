@@ -69,6 +69,10 @@ public extension Date {
         self.isToday || self.isFutureDay
     }
     
+    var isTodayOrPast: Bool {
+        self.isToday || self.isPassedDay
+    }
+    
     var daysInCurrentMonth: Int {
         let calendar = Calendar.current
         let range = calendar.range(of: .day, in: .month, for: self)
