@@ -25,7 +25,11 @@ public class NetworkMonitor {
     private var monitor: NWPathMonitor
     private let queue = DispatchQueue(label: "NetworkMonitor")
     
-    public private(set) var isConnected: Bool = true
+    public private(set) var isConnected: Bool = false
+    
+    public var isOffline: Bool {
+        isConnected == false
+    }
 
     init() {
         monitor = NWPathMonitor()
