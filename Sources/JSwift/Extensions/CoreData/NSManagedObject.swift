@@ -5,25 +5,8 @@
 //  Created by Jenya Lebid on 4/22/23.
 //
 
-import CoreData
 
-public extension NSManagedObject {
-    
-    func easySave() {
-        managedObjectContext?.performAndWait {
-            try? managedObjectContext?.save()
-        }
-    }
-    
-    func easyDelete(save: Bool = false) {
-        managedObjectContext?.performAndWait {
-            managedObjectContext?.delete(self)
-            if save {
-                try? managedObjectContext?.save()
-            }
-        }
-    }
-}
+@preconcurrency import CoreData
 
 public extension NSManagedObject {
     
