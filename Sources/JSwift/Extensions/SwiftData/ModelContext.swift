@@ -27,8 +27,9 @@ public extension ModelContext {
         return model(for: optionalID)
     }
     
-    func find<Model: PersistentModel>(by predicate: Predicate<Model>) throws -> Model? {
-        var descriptor = FetchDescriptor(predicate: predicate)
+    func find<Model: PersistentModel>(by predicate: Predicate<Model>,
+                                      sortBy: [SortDescriptor<Model>] = []) throws -> Model? {
+        var descriptor = FetchDescriptor(predicate: predicate, sortBy: sortBy)
         descriptor.fetchLimit = 1
         
         return try self.fetch(descriptor).first
