@@ -9,7 +9,7 @@ import SwiftUI
 import Network
 
 struct NetworkMonitorEnvironmentKey: EnvironmentKey {
-    static let defaultValue: NetworkMonitor = NetworkMonitor()
+    static let defaultValue: NetworkMonitor = .shared
 }
 
 public extension EnvironmentValues {
@@ -21,17 +21,23 @@ public extension EnvironmentValues {
 
 @Observable
 public class NetworkMonitor {
-    
+
+    public static let shared = NetworkMonitor(label: "JSwift Network Monitor")
+    public static var isConnected: Bool { shared.isConnected }
+
     private var monitor: NWPathMonitor
-    private let queue = DispatchQueue(label: "NetworkMonitor")
-    
+    private let queue: DispatchQueue
+
     public private(set) var isConnected: Bool = false
-    
+    public private(set) var label: String
+
     public var isOffline: Bool {
         isConnected == false
     }
 
-    init() {
+    public init(label: String) {
+        self.label = label
+        self.queue = DispatchQueue(label: label)
         monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
             DispatchQueue.main.async { [weak self] in
